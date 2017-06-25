@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>The world of Star Wars</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css">
+        <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap-theme.min.css">
+        <link href="/static/css/style.css" rel="stylesheet">
+        <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.2.1.min.js" defer></script>
+        <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js" defer></script>
+        <script src="/static/list.js" defer></script>
+    </head>
+    <body>
+    <div class="container">
+            
+    <div id="headerContainer">
+        
+        <div class="row">
+        <div class="container">
+        {% if username%}
+        <div id="loginStatus" class="alert alert-success" data-user={{username}}>
+            <strong>Success!</strong> Logged in as {{ username }}. Click
+            <a href="/logout" class="alert-link">here</a> to log out.
+        </div>
+        {% else %}
+        <div class="pull-right">
+            <div class="btn-group">
+                <button type="button" id="toggleLoginForm" class="btn btn-default">Login</button>
+                <button type="button" id="toggleRegisterForm" class="btn btn-default">Register</button>
+            </div>
+        </div>
+        {% endif %}
+        <div class="pull-right" class="login_reg_form_container pagination-cenetered">
+        <form id='login' class="form-inline" role="form" action='/login' method="POST">
+            <div class="form-group">
+                <label class="sr-only" for="inputUsername">Username</label>
+                <input name='username' type="username" class="form-control" id="loginUsername" placeholder="Username">
+            </div>
+            <div class="form-group">
+                <label class="sr-only" for="inputPassword">Password</label>
+                <input name='password' type="password" class="form-control" id="loginPassword" placeholder="Password">
+            </div>
+            <button type="submit" class="btn btn-default" id="signInBtn">Sign in</button>
+        </form>
+
+        <form id='register' class="form-inline" role="form" action='/register' method="POST">
+            <div class="form-group">
+                <label class="sr-only" for="inputUsername">Username</label>
+                <input name='reg_username' type="username" class="form-control" id="regUsername" placeholder="Username">
+            </div>
+            <div class="form-group">
+                <label class="sr-only" for="inputPassword">Password</label>
+                <input name='reg_password' type="password" class="form-control" id="regPassword" placeholder="Password">
+            </div>
+            <button type="submit" class="btn btn-default" id="registerBtn">Register</button>
+        </form>
+        </div>
+        </div>
+        </div>
+        <div id='voteMessageContainer'></div>
+        
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }} alert-dismissible flash" role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+    </div>
+
+        <h1>Star Wars universe planets</h1>
+        <button type="button" class="btn btn-primary" data-pagination="">Previous</button>
+        <button type="button" class="btn btn-primary" data-pagination="">Next</button>
+        <button type="button" id="toggle_planet_votes" class="btn btn-primary pull-right" data-toggle="modal" data-target="#residentsModal">View top voted planets</button>
+        <div class="table-responsive">           
+        <table class="table table-bordered" id="planet_details">
+            <thead>
+
+            </thead>
+            <tbody>
+                
+            </tbody>
+        </table>
+
+            <div class="modal fade bs-example-modal-lg" id="residentsModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+                <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="exampleModalLabel">New message</h4>
+                        </div>
+                        <div class="modal-body" id="modal-body">
+                            <div id="vote_stats_container">
+                                
+                            </div>
+                            <div class="table table-responsive">
+                            <table id="residents_list" class="table table-bordered">
+                                <thead>
+
+                                </thead>
+                                <tbody>
+                                    
+                                </tbody>
+                            </table>
+                            </div>
+
+                            <div class="spinner">
+                                <div class="rect1"></div>
+                                <div class="rect2"></div>
+                                <div class="rect3"></div>
+                                <div class="rect4"></div>
+                                <div class="rect5"></div>
+                            </div>
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+
+
+        </div>
+    </div>
+
+    </body>
+</html>
